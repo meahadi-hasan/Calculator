@@ -4,13 +4,16 @@ let display = document.getElementById('display');
         let firstOperand = null;
         let shouldResetDisplay = false;
 
-        function appendNumber(number) {
+        function appendDoubleZero() {
             if (shouldResetDisplay) {
                 currentInput = '';
                 shouldResetDisplay = false;
             }
-            if (currentInput === '0' && number === 0) return;
-            currentInput += number;
+            if (currentInput === '0') {
+                currentInput = '0'; 
+            } else {
+                currentInput += '00'; 
+            }
             if (operator && firstOperand !== null) {
                 updateDisplay(`${firstOperand} ${operator} ${currentInput}`);
             } else {
@@ -18,30 +21,38 @@ let display = document.getElementById('display');
             }
         }
 
-        function setOperator(op) {
-            if (currentInput === '') return;
-            if (firstOperand === null) {
-                firstOperand = parseFloat(currentInput);
-            } else if (operator) {
-                calculateResult();
-                firstOperand = parseFloat(display.textContent.split(' ')[0]);
-            }
-            operator = op;
-            shouldResetDisplay = true;
-            updateDisplay(`${firstOperand} ${operator}`);
-        }
 
+        function appendNumber(number) {
+            if (shouldResetDisplay) {
+                currentInput = '';
+                shouldResetDisplay = false;
+            }
+            currentInput += number;
+            updateDisplay(currentInput);
+        }
+        
+        function setOperator(op) {
+            if (currentInput === '' && operator !== null) {
+                currentInput = currentInput.slice(0, -1) + op;
+            } else {
+                currentInput += ` ${op} `;
+            }
+            updateDisplay(currentInput);
+            shouldResetDisplay = false;
+        }
+        
         function calculateResult() {
-            if (operator && currentInput !== '') {
-                let secondOperand = parseFloat(currentInput);
-                let result = operate(operator, firstOperand, secondOperand);
-                updateDisplay(`${firstOperand} ${operator} ${secondOperand} = ${result}`);
+            try {
+                let result = new Function('return ' + currentInput)();
+                updateDisplay(`${currentInput} = ${result}`);
                 currentInput = result.toString();
-                operator = null;
-                firstOperand = null;
                 shouldResetDisplay = true;
+            } catch (error) {
+                updateDisplay("Error");
+                currentInput = "";
             }
         }
+        
 
         function clearDisplay() {
             currentInput = '';
@@ -116,3 +127,54 @@ let display = document.getElementById('display');
                 shouldResetDisplay = true;
             }
         }
+
+        function factorialFunction() {
+            if (currentInput === '') return;
+
+            let num = parseFloat(currentInput);
+            let result = factorial(num);
+            updateDisplay(`${num}! = ${result}`);
+            currentInput = result.toString();
+            expression = [];
+            shouldResetDisplay = true;
+        }
+        
+        function factorial(n) {
+            if (n === 0 || n === 1) return 1;
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+        
+
+        function powerFunction() {
+            if (currentInput !== '') {
+                currentInput += ' ^ ';
+                updateDisplay(currentInput);
+            }
+        }
+        
+        function calculateResult() {
+            try {
+                if (currentInput.includes('^')) {
+                    let parts = currentInput.split(' ^ ');
+                    if (parts.length === 2 && parts[1] !== '') {
+                        let base = parseFloat(parts[0]);
+                        let exponent = parseFloat(parts[1]);
+                        let result = Math.pow(base, exponent);
+                        updateDisplay(`${base}^${exponent} = ${result}`);
+                        currentInput = result.toString();
+                        return;
+                    }
+                }
+                let result = new Function('return ' + currentInput)();
+                updateDisplay(`${currentInput} = ${result}`);
+                currentInput = result.toString();
+            } catch (error) {
+                updateDisplay("Error");
+                currentInput = "";
+            }
+        }
+        

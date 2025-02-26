@@ -1,77 +1,106 @@
+/* styles.css */
 body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #2c3e50;
+    padding: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
 
-        .calculator {
-            background: #2196f3;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            width: 300px;
-        }
+.calculator {
+    background: #34495e;
+    width: 100%;
+    max-width: 400px;
+    min-height: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
 
-        .display {
-            background: #fff;
-            overflow: hidden;
-            border-radius: 5px;
-            height: 50px;
-            font-size: 1.5rem;
-            text-align: right;
-            padding: 10px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+.display {
+    background: #ecf0f1;
+    border-radius: 8px;
+    height: 120px;
+    font-size: 3.5rem;
+    text-align: right;
+    padding: 20px;
+    margin-bottom: 20px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: 1fr;
+}
 
-        .button {
-            background: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 17px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
+.button {
+    background: #95a5a6;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
 
-        .button:active {
-            background: #e0e0e0;
-        }
+.button.operator {
+    background: #e67e22;
+}
 
-        .button.operator {
-            background: #ff9800;
-            color: #fff;
-        }
+.button.equal {
+    background: #2ecc71;
+}
 
-        .button.operator:active {
-            background: #e68900;
-        }
+.button.special {
+    background: #e74c3c;
+}
 
-        .button.equal {
-            background: #4caf50;
-            color: #fff;
-            grid-column: span 1;
-        }
+.button:active {
+    transform: scale(0.95);
+}
 
-        .button.equal:active {
-            background: #43a047;
-        }
+/* মোবাইল রেস্পন্সিভ */
+@media (max-width: 768px) {
+    .calculator {
+        min-height: 100%;
+        padding: 10px;
+    }
 
-        .button.special {
-            background: #f44336;
-            color: #fff;
-        }
+    .display {
+        height: 100px;
+        font-size: 2.8rem !important;
+        padding: 15px !important;
+    }
 
-        .button.special:active {
-            background: #d32f2f;
-        }
+    .buttons {
+        gap: 8px;
+    }
+
+    .button {
+        font-size: 1.4rem !important;
+        padding: 15px 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .display {
+        font-size: 2.2rem !important;
+    }
+    
+    .button {
+        padding: 12px 0;
+    }
+}
+
